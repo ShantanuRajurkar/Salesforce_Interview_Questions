@@ -2,7 +2,7 @@ public class CognizantQueNo1Handler {
     public static void handlerMethod(list<OpportunityLineItem> oppLineItems){
         set<Id> oppIds = new set<Id>();
         for(OpportunityLineItem oppLineItem : oppLineItems){
-			oppIds.add(oppLineItem.OpportunityId);          
+	    oppIds.add(oppLineItem.OpportunityId);          
         }
         if(!oppIds.isEmpty()){
             set<Id> accIds = new set<Id>();
