@@ -14,7 +14,9 @@ To maintain data integrity and avoid inconsistencies, we need to enforce two cri
 */
 
 trigger GlobantQueNo1 on OpportunityContactRole (before insert) {
-    if(trigger.isBefore && trigger.isInsert){
-        GlobantQueNo1Handler.handlerMethod(trigger.new);
+    if(trigger.isBefore){
+        if(trigger.isInsert){
+            GlobantQueNo1Handler.handlerMethod(trigger.new);
+        }
     }
 }
