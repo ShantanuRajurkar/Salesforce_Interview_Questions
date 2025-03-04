@@ -12,12 +12,9 @@ public with sharing class GlobantQueNo1Handler {
         Map<Id,Opportunity> oppMap = new Map<Id,Opportunity>();
         Map<String,OpportunityContactRole> existingRolesMap = new Map<String,OpportunityContactRole>();
         
-        if(!newRecordList.isEmpty())
-        {
-            for(OpportunityContactRole ocr : newRecordList)
-            {
-                if(ocr.OpportunityId != null)
-                {
+        if(!newRecordList.isEmpty()){
+            for(OpportunityContactRole ocr : newRecordList){
+                if(ocr.OpportunityId != null){
                     oppIds.add(ocr.OpportunityId);
                 }
                 if(ocr.ContactId != null)
