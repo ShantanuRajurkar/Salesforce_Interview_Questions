@@ -1,0 +1,53 @@
+<!--
+  @description       : 
+  @author            : Shantanu Rajurkar
+  @group             : 
+  @last modified on  : 04-13-2025
+  @last modified by  : Shantanu Rajurkar
+-->
+<template>
+    <lightning-card title="Case Management Dashboard">
+        <div class="slds-p-horizontal_medium">
+            <lightning-input label="Search Cases" value={searchKey} onchange={handleSearchKeyChange}></lightning-input>
+            <lightning-button label="Search" onclick={handleSearch}></lightning-button>
+        </div>
+        <lightning-datatable
+            key-field="Id"
+            data={cases}
+            columns={columns}
+            onrowaction={handleRowAction}>
+        </lightning-datatable>
+        <div class="slds-p-horizontal_medium">
+            <lightning-button label="Previous" onclick={handlePrevious} disabled={isFirstPage}></lightning-button>
+            <lightning-button label="Next" onclick={handleNext} disabled={isLastPage}></lightning-button>
+        </div>
+    </lightning-card>
+    
+    <!-- Modal for updating a Case -->
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal header -->
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Update Case</h2>
+                </header>
+                <!-- Modal body with record edit form -->
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning-record-edit-form object-api-name="Case" record-id={selectedCaseId} 
+                                                onsuccess={handleFormSuccess} onerror={handleFormError}>
+                        <lightning-messages></lightning-messages>
+                        <!-- Display picklist fields. These fields will render as picklists if configured that way in the org -->
+                        <lightning-input-field field-name="Subject"></lightning-input-field>
+                        <lightning-input-field field-name="Status"></lightning-input-field>
+                        <lightning-input-field field-name="Priority"></lightning-input-field>
+                        <div class="slds-m-top_medium">
+                            <lightning-button type="submit" label="Save" variant="brand"></lightning-button>
+                            <lightning-button label="Cancel" onclick={closeModal} variant="neutral"></lightning-button>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
