@@ -1,0 +1,12 @@
+.highlight {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+  }
+  .closed-won {
+    background-color: #e0ffe0;
+    border: 1px solid #00a000;
+  }
+  .normal {
+    background-color: #f4f6f9;
+    border: 1px solid #d8dde6;
+  }
