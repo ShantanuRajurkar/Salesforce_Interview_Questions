@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Shantanu Rajurkar
  * @group             : 
- * @last modified on  : 05-10-2025
+ * @last modified on  : 05-11-2025
  * @last modified by  : Shantanu Rajurkar
 **/
 public with sharing class CapgeminiQueNo1Helper {
@@ -133,7 +133,7 @@ public with sharing class CapgeminiQueNo1Helper {
             String newStatus;
             if (countVal == 0) {
                 newStatus = 'Available';
-            } else if (countVal == res.Max_Concurrent_Bookings__c) {
+            } else if (countVal >= res.Max_Concurrent_Bookings__c) {
                 newStatus = 'Overbooked';
             } else {
                 newStatus = 'Booked';
