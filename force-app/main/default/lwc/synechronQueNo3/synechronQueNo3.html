@@ -1,0 +1,17 @@
+<!--
+  @description       : 
+  @author            : Shantanu Rajurkar
+  @group             : 
+  @last modified on  : 05-25-2025
+  @last modified by  : Shantanu Rajurkar
+-->
+<template>
+    <div class="game-container">
+        <div class="ball" style={ballStyle}></div>
+        <div class="paddle" style={paddleStyle}></div>
+        <div class="scoreboard">
+            <p>Score: {score}</p>
+            <p if:true={gameOver}>Game Over! Press Enter to Restart</p>
+        </div>
+    </div>
+</template>

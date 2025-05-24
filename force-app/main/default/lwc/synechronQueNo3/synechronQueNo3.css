@@ -1,0 +1,28 @@
+.game-container {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    border: 2px solid #000;
+    background-color: #f0f0f0;
+    overflow: hidden;
+    margin: auto;
+}
+
+.paddle {
+    position: absolute;
+    background-color: #0070d2;
+    border-radius: 5px;
+}
+
+.ball {
+    position: absolute;
+    background-color: #ff0000;
+    border-radius: 50%;
+}
+
+.scoreboard {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-weight: bold;
+}
