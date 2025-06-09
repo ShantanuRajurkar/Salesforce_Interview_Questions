@@ -1,0 +1,67 @@
+<!--
+  @description       : 
+  @author            : Shantanu Rajurkar
+  @group             : 
+  @last modified on  : 06-08-2025
+  @last modified by  : Shantanu Rajurkar
+-->
+<template>
+    <div class="slds-grid slds-wrap slds-gutters">
+        <!-- All (Prospecting) Section -->
+        <div class="slds-col slds-size_1-of-3 slds-p-horizontal_small">
+            <lightning-card title="All (Prospecting)">
+                <div class="slds-p-around_medium" data-stage="Prospecting" ondragover={handleDragOver} ondrop={handleDrop}>
+                    <!-- Search input filters the 'All' list -->
+                    <lightning-input class="searchInput"
+                                     type="text"
+                                     placeholder="Search Opportunities..."
+                                     value={searchTerm}
+                                     onchange={handleSearch}>
+                    </lightning-input>
+                    <!-- List of prospecting Opportunities -->
+                    <ul>
+                        <template for:each={prospectingOpps} for:item="opp">
+                            <li key={opp.Id} data-id={opp.Id} draggable="true" 
+                                ondragstart={handleDragStart} 
+                                class="slds-box slds-m-around_x-small">
+                                {opp.Name}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </lightning-card>
+        </div>
+        <!-- Closed Won Section -->
+        <div class="slds-col slds-size_1-of-3 slds-p-horizontal_small">
+            <lightning-card title="Closed Won">
+                <div class="slds-p-around_medium" data-stage="Closed Won" ondragover={handleDragOver} ondrop={handleDrop}>
+                    <ul>
+                        <template for:each={closedWonOpps} for:item="opp">
+                            <li key={opp.Id} data-id={opp.Id} draggable="true" 
+                                ondragstart={handleDragStart} 
+                                class="slds-box slds-m-around_x-small">
+                                {opp.Name}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </lightning-card>
+        </div>
+        <!-- Closed Lost Section -->
+        <div class="slds-col slds-size_1-of-3 slds-p-horizontal_small">
+            <lightning-card title="Closed Lost">
+                <div class="slds-p-around_medium" data-stage="Closed Lost" ondragover={handleDragOver} ondrop={handleDrop}>
+                    <ul>
+                        <template for:each={closedLostOpps} for:item="opp">
+                            <li key={opp.Id} data-id={opp.Id} draggable="true" 
+                                ondragstart={handleDragStart} 
+                                class="slds-box slds-m-around_x-small">
+                                {opp.Name}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </lightning-card>
+        </div>
+    </div>
+</template>
