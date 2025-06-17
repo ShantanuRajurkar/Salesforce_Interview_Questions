@@ -1,0 +1,51 @@
+/**
+ * @description       : 
+ * @author            : Shantanu Rajurkar
+ * @group             : 
+ * @last modified on  : 06-14-2025
+ * @last modified by  : Shantanu Rajurkar
+**/
+public with sharing class AmazonQueNo3Handler {
+    public static void handleAfter(
+            Boolean isInsert,
+            Boolean isUpdate,
+            Boolean isDelete,
+            Boolean isUndelete,
+            List<Partner_Relationship__c> newList,
+            Map<Id, Partner_Relationship__c> oldMap
+    ) {
+        // 1. Gather all Accounts affected by this DML
+        Set<Id> accIds = new Set<Id>();
+        
+        if (isInsert || isUndelete) {
+            for (Partner_Relationship__c pr : newList) {
+                if (pr.Account__c != null) accIds.add(pr.Account__c);
+            }
+        }
+        
+        if (isUpdate) {
+            for (Partner_Relationship__c prNew : newList) {
+                Partner_Relationship__c prOld = oldMap.get(prNew.Id);
+                if (prNew.Account__c != prOld.Account__c) {
+                    if (prNew.Account__c != null) accIds.add(prNew.Account__c);
+                    if (prOld.Account__c != null) accIds.add(prOld.Account__c);
+                } else if (prNew.Account__c != null) {
+                    accIds.add(prNew.Account__c);
+                }
+            }
+        }
+        
+        if (isDelete) {
+            for (Partner_Relationship__c prOld : oldMap.values()) {
+                if (prOld.Account__c != null) accIds.add(prOld.Account__c);
+            }
+        }
+        
+        if (accIds.isEmpty()) {
+            return;
+        }
+        
+        // 2. Delegate to helper for the bulk of the logic
+        AmazonQueNo3Helper.updateAccounts(accIds);
+    }
+}
