@@ -1,0 +1,96 @@
+/**
+ * @description       : 
+ * @author            : Shantanu Rajurkar
+ * @group             : 
+ * @last modified on  : 06-14-2025
+ * @last modified by  : Shantanu Rajurkar
+**/
+public with sharing class AmazonQueNo3Helper {
+    /**
+     * Main logic to recompute:
+     *  - Account.Partner_Count__c
+     *  - Account.Top_Partners__c
+     */
+    public static void updateAccounts(Set<Id> accountIds) {
+        // ---------
+        // A) Partner_Count__c via Aggregation
+        // ---------
+        Map<Id, Integer> countMap = new Map<Id, Integer>();
+        for (AggregateResult ar : [
+            SELECT Account__c acct, COUNT(Id) cnt
+            FROM Partner_Relationship__c
+            WHERE Account__c IN :accountIds
+            GROUP BY Account__c
+        ]) {
+            countMap.put(
+                (Id) ar.get('acct'),
+                (Integer) ar.get('cnt')
+            );
+        }
+        
+        // ---------
+        // B) Top 3 Partners Logic
+        // ---------
+        List<Partner_Relationship__c> rels = [
+            SELECT Account__c, Partner__r.Name, Score__c
+            FROM Partner_Relationship__c
+            WHERE Account__c IN :accountIds
+        ];
+        
+        // Group by Account
+        Map<Id, List<Partner_Relationship__c>> relsByAccount = new Map<Id, List<Partner_Relationship__c>>();
+        for (Partner_Relationship__c pr : rels) {
+            if (!relsByAccount.containsKey(pr.Account__c)) {
+                relsByAccount.put(pr.Account__c, new List<Partner_Relationship__c>());
+            }
+            relsByAccount.get(pr.Account__c).add(pr);
+        }
+        
+        // Prepare Accounts to update
+        List<Account> accountsToUpdate = new List<Account>();
+        
+        for (Id acctId : accountIds) {
+            Account acc = new Account(Id = acctId);
+            
+            // 1) Partner_Count__c
+            acc.Partner_Count__c = countMap.containsKey(acctId)
+                ? countMap.get(acctId)
+                : 0;
+            
+            // 2) Top_Partners__c
+            List<Partner_Relationship__c> listForAcc = relsByAccount.get(acctId);
+            if (listForAcc == null || listForAcc.isEmpty()) {
+                acc.Top_Partners__c = '';
+            } else {
+                // Sort: Score desc, then Partner name asc
+                listForAcc.sort(new PartnerScoreComparator());
+                
+                // Take top 3 names
+                List<String> topNames = new List<String>();
+                Integer maxCount = Math.min(3, listForAcc.size());
+                for (Integer i = 0; i < maxCount; i++) {
+                    topNames.add(listForAcc[i].Partner__r.Name);
+                }
+                acc.Top_Partners__c = String.join(topNames, ',');
+            }
+            
+            accountsToUpdate.add(acc);
+        }
+        
+        // Update all Accounts in one DML
+        if (!accountsToUpdate.isEmpty()) {
+            update accountsToUpdate;
+        }
+    }
+    
+    // Comparator for Partner_Relationship__c sorting
+    public class PartnerScoreComparator implements System.Comparator<Partner_Relationship__c> {
+        public Integer compare(Partner_Relationship__c a, Partner_Relationship__c b) {
+            // Primary: Score descending
+            if (a.Score__c > b.Score__c) return -1;
+            if (a.Score__c < b.Score__c) return 1;
+            // Tie-break: Partner Name ascending
+            return a.Partner__r.Name.compareTo(b.Partner__r.Name);
+        }
+    }
+}
