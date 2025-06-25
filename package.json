@@ -3,6 +3,8 @@
   "private": true,
   "version": "1.0.0",
   "description": "Salesforce App",
+  "packageDirectories": [
+  { "path": "force-app", "default": true }],
   "scripts": {
     "lint": "eslint **/{aura,lwc}/**/*.js",
     "test": "npm run test:unit",
