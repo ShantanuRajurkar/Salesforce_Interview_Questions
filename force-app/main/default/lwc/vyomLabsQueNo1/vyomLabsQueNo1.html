@@ -1,0 +1,45 @@
+<!--
+  @description       : 
+  @author            : Shantanu Rajurkar
+  @group             : 
+  @last modified on  : 08-19-2025
+  @last modified by  : Shantanu Rajurkar
+-->
+<!--
+Problem Statement:-
+Build a public-facing job application form (LWC) for guest users, where once the user fills required details and clicks a button — their information is instantly sent to their email as a styled PDF attachment.
+
+No records should be saved in Salesforce, and the entire flow (Form ➝ Apex ➝ VF PDF ➝ Email) must be handled directly inside LWC + Apex.
+-->
+<template>
+    <lightning-card title="Job Application Form">
+        <div class="slds-p-around_medium">
+            <!-- First Name -->
+            <lightning-input label="First Name" data-field="firstName"
+                onchange={handleChange} value={firstName} required></lightning-input>
+            <!-- Last Name -->
+            <lightning-input label="Last Name" data-field="lastName"
+                onchange={handleChange} value={lastName} required></lightning-input>
+            <!-- Email -->
+            <lightning-input label="Email" type="email" data-field="email"
+                onchange={handleChange} value={email} required></lightning-input>
+            <!-- Phone -->
+            <lightning-input label="Phone" type="tel" data-field="phone"
+                onchange={handleChange} value={phone} required></lightning-input>
+            <!-- Position Applied For -->
+            <lightning-input label="Position Applied For" data-field="position"
+                onchange={handleChange} value={position} required></lightning-input>
+            <!-- Why you want to work with us? -->
+            <lightning-textarea label="Why you want to work with us?"
+                data-field="resumeSummary" onchange={handleChange} value={resumeSummary} required>
+            </lightning-textarea>
+            <!-- Submit Button -->
+            <div class="slds-m-top_medium">
+                <lightning-button variant="brand"
+                    label="Generate a response copy to your email"
+                    onclick={submitApplication}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

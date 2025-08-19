@@ -1,0 +1,37 @@
+<apex:page showHeader="false" renderAs="pdf" applyBodyTag="false">
+    <head>
+        <style>
+            /* PDF Styles */
+            body { font-family: Arial, sans-serif; padding: 20px; line-height: 1.5; }
+            h1 { font-size: 24px; margin-bottom: 20px; text-align: center; }
+            h2 { font-size: 18px; margin-top: 30px; color: #333; border-bottom: 1px solid #bbb; }
+            table.details { width: 100%; border-collapse: collapse; margin-top: 10px; }
+            table.details td { padding: 5px 10px; vertical-align: top; }
+            table.details td.label { font-weight: bold; width: 150px; }
+        </style>
+    </head>
+    <body>
+        <h1>Job Application Submission</h1>
+        <h2>Applicant Details</h2>
+        <table class="details">
+            <tr>
+                <td class="label">Full Name:</td>
+                <td>{!$CurrentPage.parameters.fullName}</td>
+            </tr>
+            <tr>
+                <td class="label">Email:</td>
+                <td>{!$CurrentPage.parameters.email}</td>
+            </tr>
+            <tr>
+                <td class="label">Phone:</td>
+                <td>{!$CurrentPage.parameters.phone}</td>
+            </tr>
+            <tr>
+                <td class="label">Position:</td>
+                <td>{!$CurrentPage.parameters.position}</td>
+            </tr>
+        </table>
+        <h2>Summary</h2>
+        <p>{!$CurrentPage.parameters.resumeSummary}</p>
+    </body>
+</apex:page>
