@@ -14,11 +14,10 @@ public with sharing class NagarooQueNo1Handler {
                 accIds.add(c.AccountId);
             }
         }
-        system.debug('Account Ids: ' + accIds);
         for(Account acc : [SELECT Id, Address__c FROM Account WHERE Id IN :accIds]){
             accIdToAddressMap.put(acc.Id, acc.Address__c);
         }
-        NagarooQueNo1Helper.populateAccountAddToContact(accIds, newContacts, accIdToAddressMap);
+        NagarooQueNo1Helper.populateAccountAddToContact(newContacts, accIdToAddressMap);
     }
 
     public static void afterUpdateContacts(list<Contact> newContacts, map<Id, Contact> conOldMap){
