@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Shantanu Rajurkar
  * @group             : 
- * @last modified on  : 09-02-2025
+ * @last modified on  : 09-09-2025
  * @last modified by  : Shantanu Rajurkar
 **/
 public with sharing class NagarooQueNo1Helper {
@@ -10,12 +10,11 @@ public with sharing class NagarooQueNo1Helper {
         for(Contact con : newContacts){
             if(accIdToAddressMap.keySet().contains(con.AccountId)) {
                 con.Contact_Address__c = accIdToAddressMap.get(con.AccountId);
-                system.debug('Contact Address populated: ' + con.Contact_Address__c);
             }
         }
     }
     public static void populateContactAddToAccountAndContact(map<Id, String> conIdToAddressMap){
-        list<Account> accToUpdate = new list<Account>();
+        set<Account> accToUpdate = new set<Account>();
         for(Contact con : [SELECT Id, Name, Contact_Address__c, Account.Address__c FROM Contact WHERE Id IN :conIdToAddressMap.keySet()]){
             Account acc = new Account();
             acc = con.Account;
@@ -24,7 +23,7 @@ public with sharing class NagarooQueNo1Helper {
         }
 
         if(!accToUpdate.isEmpty()){
-            update accToUpdate;
+            update new list<Account>(accToUpdate);
 
             set<Id> accIds = new set<Id>();
             list<Contact> conToUpdate = new list<Contact>();
