@@ -1,0 +1,27 @@
+<!--
+  @description       : 
+  @author            : Shantanu Rajurkar
+  @group             : 
+  @last modified on  : 11-09-2025
+  @last modified by  : Shantanu Rajurkar
+-->
+
+<!--
+Problem Statement:
+Create two Lightning Web Components: itemsContainer (Parent) and childItem (Child).
+- The parent stores an items array, where each item has { id, name, count }.
+- The parent passes each item to the child and renders them using <template for:each={items}>.
+- The child displays the item details and includes an Increment button (Use to increase count by +1).
+- When the button is clicked, the child must send a custom event to the parent telling which item should have its count increased.
+- The parent must update the corresponding item’s count and ensure the UI re-renders correctly.
+-->
+
+<template>
+    <lightning-card title="Items Container">
+        <div class="slds-p-around_medium">
+            <template for:each={items} for:item="item">
+                <c-lti-Mind-Tree-Que-No1-Child key={item.id} item={item} onincrement={handleIncrement}></c-lti-Mind-Tree-Que-No1-Child>
+            </template>
+        </div>
+    </lightning-card>
+</template>
